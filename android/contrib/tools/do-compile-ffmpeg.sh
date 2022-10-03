@@ -87,14 +87,13 @@ if [ "$TARGET_ARCH" = "armv7a" ]; then
     TARGET_TOOLCHAIN_NAME=${TARGET_CROSS_PREFIX}-${TARGET_GCC_VER}
 
     TARGET_CFG_FLAGS="$TARGET_CFG_FLAGS --arch=arm --cpu=cortex-a8"
-    TARGET_CFG_FLAGS="$TARGET_CFG_FLAGS --disable-neon"
-    #TARGET_CFG_FLAGS="$TARGET_CFG_FLAGS --enable-neon"
+    TARGET_CFG_FLAGS="$TARGET_CFG_FLAGS --enable-neon"
     TARGET_CFG_FLAGS="$TARGET_CFG_FLAGS --enable-thumb"
 
     TARGET_EXTRA_CFLAGS="$TARGET_EXTRA_CFLAGS -march=armv7-a -mcpu=cortex-a8 -mfpu=vfpv3-d16 -mfloat-abi=softfp -mthumb"
     TARGET_EXTRA_LDFLAGS="$TARGET_EXTRA_LDFLAGS -Wl,--fix-cortex-a8"
 
-    TARGET_ASSEMBLER_SUB_DIRS="arm neon"
+    TARGET_ASSEMBLER_SUB_DIRS="arm"
 
 elif [ "$TARGET_ARCH" = "x86" ]; then
     
@@ -196,6 +195,7 @@ echo "--------------------"
 export PATH=$TARGET_TOOLCHAIN_PATH/bin:$PATH
 export CC=$TARGET_TOOLCHAIN_PATH/bin/$TARGET_CLANG_PREFIX-clang
 export SYSROOT=$ANDROID_NDK/toolchains/llvm/prebuilt/darwin-x86_64/sysroot
+
 export CXX=$TARGET_TOOLCHAIN_PATH/bin/$TARGET_CLANG_PREFIX-clang++
 export LD=${TARGET_CROSS_PREFIX}-ld
 export AR=${TARGET_CROSS_PREFIX}-ar
@@ -292,6 +292,7 @@ else
         --extra-cflags="$TARGET_CFLAGS $TARGET_EXTRA_CFLAGS" \
         --extra-ldflags="$TARGET_DEP_LIBS $TARGET_EXTRA_LDFLAGS" \
         --disable-indev=v4l2
+
     make clean
 fi
 
